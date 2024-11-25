@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-function validateText($text) {
+function validateText($text): string {
     if (empty($text)) {
         return "Введите ФИО";
     }
@@ -11,7 +11,7 @@ function validateText($text) {
     return htmlspecialchars($text);
 }
 
-function validateEmail($email) {
+function validateEmail($email): string {
     if (empty($email)) {
         return "Эмейл не может быть пустым";
     }
@@ -21,35 +21,35 @@ function validateEmail($email) {
     return htmlspecialchars($email);
 }
 
-function validateNumber($number) {
-    if (empty($number) || !is_numeric($number) || $number < 1 || $number > 120) {
+function validateNumber($number): string {
+    if (empty($number) || $number < 1 || $number > 120) {
         return "Возраст должен быть от 1 до 120";
     }
     return htmlspecialchars($number);
 }
 
-function validateSelect($select) {
+function validateSelect($select): string {
     if (empty($select)) {
         return "Выберите страну из списка";
     }
     return htmlspecialchars($select);
 }
 
-function validateRadio($radio) {
+function validateRadio($radio): string {
     if (empty($radio)) {
         return "Выберите пол";
     }
     return htmlspecialchars($radio);
 }
 
-function validateCheckbox($checkbox) {
+function validateCheckbox($checkbox): string {
     if (!is_array($checkbox) || empty($checkbox)) {
         return "Необходимо выбрать хотя бы одну профессию";
     } 
     return htmlspecialchars(implode(", ", $checkbox));
 }
 
-function validatePassword($password) {
+function validatePassword($password): string {
     if (empty($password)) {
         return "Пароль не может быть пустым";
     }
@@ -59,7 +59,7 @@ function validatePassword($password) {
     return htmlspecialchars($password);
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $errors = [];
     $data = [];
 
@@ -73,10 +73,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'Password' => 'validatePassword'
     ];
 
-    $postKeys = ['text' => 'FIO', 'email' => 'Email', 'number' => 'Age', 'select' => 'Country', 'radio' => 'Gender', 'checkbox' => 'Profession', 'password' => 'Password'];
+    $postKeys = [
+        'text' => 'FIO', 
+        'email' => 'Email', 
+        'number' => 'Age', 
+        'select' => 'Country', 
+        'radio' => 'Gender', 
+        'checkbox' => 'Profession', 
+        'password' => 'Password'
+    ];
 
     foreach ($postKeys as $key => $dataKey) {
         $data[$dataKey] = isset($_POST[$key]) ? $validators[$dataKey]($_POST[$key]) : null;
+
         if (strpos($data[$dataKey], "не может быть пустым") !== false || strpos($data[$dataKey], "должен") !== false) {
             $errors[] = $data[$dataKey];
         }
@@ -87,8 +96,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header('Location: index.php');
         exit();
     } else {
+
         $data['Password'] = password_hash($data['Password'], PASSWORD_DEFAULT);
         $data['Timestamp'] = date("Y-m-d H:i:s");
+
         file_put_contents('log.json', json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
         echo "<p style='color:green;'>Данные успешно записаны!</p>";
     }
