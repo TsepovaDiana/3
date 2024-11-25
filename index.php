@@ -53,15 +53,13 @@ session_start();
         <input type="submit" value="Отправить">
     </form>
 
-    <?php
-    if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
-        echo "<ul style='color: red;'>";
-        foreach ($_SESSION['errors'] as $error) {
-            echo "<li>$error</li>";
-        }
-        echo "</ul>";
-        unset($_SESSION['errors']);
-    }
-    ?>
+    <?php if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])): ?>
+        <ul style='color: red;'>
+            <?php foreach ($_SESSION['errors'] as $error): ?>
+                <li><?= htmlspecialchars($error) ?></li>
+            <?php endforeach; ?>
+        </ul>
+        <?php unset($_SESSION['errors']); ?>
+    <?php endif; ?>
 </body>
 </html>
