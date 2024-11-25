@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 function validateText($text) {
     return !empty($text) ? htmlspecialchars($text) : "Введите ФИО";
 }
@@ -28,7 +30,7 @@ function validateCheckbox($checkbox) {
     if (is_array($checkbox) && !empty($checkbox)) {
         return htmlspecialchars(implode(", ", $checkbox));
     } 
-    return "Необходимо выбрать опцию";
+    return "Необходимо выбрать хотя бы одну профессию";
 }
 
 function validatePassword($password) {
@@ -61,7 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($data['password'] === "Пароль не может быть пустым") $errors[] = $data['password'];
 
     if ($errors) {
-        header('Location: index.php?errors=' . urlencode(json_encode($errors)));
+        $_SESSION['errors'] = $errors;
+        header('Location: index.php');
         exit();
     } else {
         $data['timestamp'] = date("Y-m-d H:i:s");
