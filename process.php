@@ -41,33 +41,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = [];
     $data = [];
 
-    $data['text'] = validateText($_POST['text']);
-    if ($data['text'] === "Введите ФИО") $errors[] = $data['text'];
+    $data['FIO'] = validateText($_POST['text']);
+    if ($data['FIO'] === "Введите ФИО") $errors[] = $data['FIO'];
 
-    $data['email'] = validateEmail($_POST['email']);
-    if ($data['email'] === "Эмейл не может быть пустым" || $data['email'] === "Неверный формат эмейла") $errors[] = $data['email'];
+    $data['Email'] = validateEmail($_POST['email']);
+    if ($data['Email'] === "Эмейл не может быть пустым" || $data['Email'] === "Неверный формат эмейла") $errors[] = $data['Email'];
 
-    $data['number'] = validateNumber($_POST['number']);
-    if ($data['number'] === "Введите возраст") $errors[] = $data['number'];
+    $data['Age'] = validateNumber($_POST['number']);
+    if ($data['Age'] === "Введите возраст") $errors[] = $data['Age'];
 
-    $data['select'] = validateSelect($_POST['select']);
-    if ($data['select'] === "Выберите страну из списка") $errors[] = $data['select'];
+    $data['Country'] = validateSelect($_POST['select']);
+    if ($data['Country'] === "Выберите страну из списка") $errors[] = $data['Country'];
 
-    $data['radio'] = validateRadio($_POST['radio']);
-    if ($data['radio'] === "Выберите пол") $errors[] = $data['radio'];
+    $data['Gender'] = validateRadio($_POST['radio']);
+    if ($data['Gender'] === "Выберите пол") $errors[] = $data['Gender'];
 
-    $data['checkbox'] = validateCheckbox($_POST['checkbox'] ?? []);
-    if ($data['checkbox'] === "Необходимо выбрать опцию") $errors[] = $data['checkbox'];
+    $data['Profession'] = validateCheckbox($_POST['checkbox'] ?? []);
+    if ($data['Profession'] === "Необходимо выбрать опцию") $errors[] = $data['Profession'];
 
-    $data['password'] = validatePassword($_POST['password']);
-    if ($data['password'] === "Пароль не может быть пустым") $errors[] = $data['password'];
+    $data['Password'] = validatePassword($_POST['password']);
+    if ($data['Password'] === "Пароль не может быть пустым") $errors[] = $data['Password'];
 
     if ($errors) {
         $_SESSION['errors'] = $errors;
         header('Location: index.php');
         exit();
     } else {
-        $data['timestamp'] = date("Y-m-d H:i:s");
+        $data['Timestamp'] = date("Y-m-d H:i:s");
         file_put_contents('log.json', json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
         echo "<p style='color:green;'>Данные успешно записаны!</p>";
     }
