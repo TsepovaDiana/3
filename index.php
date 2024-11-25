@@ -22,8 +22,8 @@
             <option value="">Выберите</option>
             <option value="option1">Россия</option>
             <option value="option2">Белоруссия</option>
-            <option value="option2">Украина</option>
-            <option value="option2">Казахстан</option>
+            <option value="option3">Украина</option>
+            <option value="option4">Казахстан</option>
         </select><br><br>
 
         <label>Выберите пол:</label>
