@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -50,15 +54,13 @@
     </form>
 
     <?php
-    if (isset($_GET['errors'])) {
-        $errors = json_decode($_GET['errors'], true);
-        if ($errors) {
-            echo "<ul style='color: red;'>";
-            foreach ($errors as $error) {
-                echo "<li>$error</li>";
-            }
-            echo "</ul>";
+    if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
+        echo "<ul style='color: red;'>";
+        foreach ($_SESSION['errors'] as $error) {
+            echo "<li>$error</li>";
         }
+        echo "</ul>";
+        unset($_SESSION['errors']);
     }
     ?>
 </body>
