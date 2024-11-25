@@ -19,32 +19,32 @@ session_start();
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required><br><br>
 
-        <label for="number">Ваш возраст:</label>
+        <label for="Age">Ваш возраст:</label>
         <input type="number" id="number" name="number" required><br><br>
 
         <label for="select">Страна:</label>
         <select id="select" name="select" required>
             <option value="">Выберите</option>
-            <option value="option1">Россия</option>
-            <option value="option2">Белоруссия</option>
-            <option value="option3">Украина</option>
-            <option value="option4">Казахстан</option>
+            <option value="РRussia">Россия</option>
+            <option value="Belarussia">Белоруссия</option>
+            <option value="Ukraine">Украина</option>
+            <option value="Kazakhstan">Казахстан</option>
         </select><br><br>
 
         <label>Выберите пол:</label>
-        <input type="radio" id="radio1" name="radio" value="option1" required>
+        <input type="radio" id="radio1" name="radio" value="Female" required>
         <label for="radio1">Женский</label>
-        <input type="radio" id="radio2" name="radio" value="option2">
+        <input type="radio" id="radio2" name="radio" value="Male">
         <label for="radio2">Мужской</label><br><br>
 
         <label>Ваша профессия:</label><br>
-        <input type="checkbox" id="checkbox1" name="checkbox[]" value="1">
+        <input type="checkbox" id="checkbox1" name="checkbox[]" value="student">
         <label for="checkbox1">студент</label><br>
-        <input type="checkbox" id="checkbox2" name="checkbox[]" value="2">
+        <input type="checkbox" id="checkbox2" name="checkbox[]" value="teacher">
         <label for="checkbox2">учитель</label><br>
-        <input type="checkbox" id="checkbox3" name="checkbox[]" value="3">
+        <input type="checkbox" id="checkbox3" name="checkbox[]" value="programmer">
         <label for="checkbox3">программист</label><br>
-        <input type="checkbox" id="checkbox4" name="checkbox[]" value="4">
+        <input type="checkbox" id="checkbox4" name="checkbox[]" value="economist">
         <label for="checkbox4">экономист</label><br><br>
 
         <label for="password">Пароль:</label>
