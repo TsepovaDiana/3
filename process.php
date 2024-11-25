@@ -67,6 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header('Location: index.php');
         exit();
     } else {
+        $data['Password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        
         $data['Timestamp'] = date("Y-m-d H:i:s");
         file_put_contents('log.json', json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
         echo "<p style='color:green;'>Данные успешно записаны!</p>";
