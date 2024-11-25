@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data = [];
 
     if (empty($_POST['text'])) {
-        $errors['text'] = "Текстовое поле не может быть пустым";
+        $errors['text'] = "Введите ФИО";
     } else {
         $data['text'] = htmlspecialchars($_POST['text']);
     }
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($_POST['number'])) 
     {
-        $errors['number'] = "Номер не может быть пустым";
+        $errors['number'] = "Введите возраст";
     } 
     else 
     {
@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($_POST['select'])) 
     {
-        $errors['select'] = "Выберите опцию из списка";
+        $errors['select'] = "Выберите страну из списка";
     } 
     else 
     {
@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($_POST['radio'])) 
     {
-        $errors['radio'] = "Выберите радиокнопку";
+        $errors['radio'] = "Выберите пол";
     } 
     else 
     {
