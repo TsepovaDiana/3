@@ -14,21 +14,21 @@ session_start();
     <form action="process.php" method="POST">
 
         <label for="text">ФИО:</label>
-        <input type="text" id="text" name="text" required><br><br>
+        <input type="text" id="text" name="text" required pattern="[А-Яа-яЁё\s]+" title="ФИО должно содержать только буквы и пробелы"><br><br>
 
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required><br><br>
 
-        <label for="Age">Ваш возраст:</label>
-        <input type="number" id="number" name="number" required><br><br>
+        <label for="age">Ваш возраст:</label>
+        <input type="number" id="age" name="number" required min="1" max="120" title="Возраст должен быть от 1 до 120"><br><br>
 
         <label for="select">Страна:</label>
         <select id="select" name="select" required>
             <option value="">Выберите</option>
-            <option value="РRussia">Россия</option>
-            <option value="Belarussia">Белоруссия</option>
-            <option value="Ukraine">Украина</option>
-            <option value="Kazakhstan">Казахстан</option>
+            <option value="Россия">Россия</option>
+            <option value="Белоруссия">Белоруссия</option>
+            <option value="Украина">Украина</option>
+            <option value="Казахстан">Казахстан</option>
         </select><br><br>
 
         <label>Выберите пол:</label>
