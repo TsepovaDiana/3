@@ -14,16 +14,15 @@ function validateText($text) {
 function validateEmail($email) {
     if (empty($email)) {
         return "Эмейл не может быть пустым";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return "Неверный формат эмейла";
     }
     return htmlspecialchars($email);
 }
 
 function validateNumber($number) {
-    if (empty($number)) {
-        return "Введите возраст";
-    } elseif (!is_numeric($number) || $number < 1 || $number > 120) {
+    if (empty($number) || !is_numeric($number) || $number < 1 || $number > 120) {
         return "Возраст должен быть от 1 до 120";
     }
     return htmlspecialchars($number);
@@ -37,14 +36,17 @@ function validateSelect($select) {
 }
 
 function validateRadio($radio) {
-    return !empty($radio) ? htmlspecialchars($radio) : "Выберите пол";
+    if (empty($radio)) {
+        return "Выберите пол";
+    }
+    return htmlspecialchars($radio);
 }
 
 function validateCheckbox($checkbox) {
-    if (is_array($checkbox) && !empty($checkbox)) {
-        return htmlspecialchars(implode(", ", $checkbox));
+    if (!is_array($checkbox) || empty($checkbox)) {
+        return "Необходимо выбрать хотя бы одну профессию";
     } 
-    return "Необходимо выбрать хотя бы одну профессию";
+    return htmlspecialchars(implode(", ", $checkbox));
 }
 
 function validatePassword($password) {
@@ -61,26 +63,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = [];
     $data = [];
 
-    $data['FIO'] = validateText($_POST['text']);
-    if ($data['FIO'] === "Введите ФИО" || strpos($data['FIO'], "ФИО") !== false) $errors[] = $data['FIO'];
+    $validators = [
+        'FIO' => 'validateText',
+        'Email' => 'validateEmail',
+        'Age' => 'validateNumber',
+        'Country' => 'validateSelect',
+        'Gender' => 'validateRadio',
+        'Profession' => 'validateCheckbox',
+        'Password' => 'validatePassword'
+    ];
 
-    $data['Email'] = validateEmail($_POST['email']);
-    if ($data['Email'] === "Эмейл не может быть пустым" || $data['Email'] === "Неверный формат эмейла") $errors[] = $data['Email'];
+    $postKeys = ['text' => 'FIO', 'email' => 'Email', 'number' => 'Age', 'select' => 'Country', 'radio' => 'Gender', 'checkbox' => 'Profession', 'password' => 'Password'];
 
-    $data['Age'] = validateNumber($_POST['number']);
-    if ($data['Age'] === "Введите возраст" || strpos($data['Age'], "Возраст") !== false) $errors[] = $data['Age'];
-
-    $data['Country'] = validateSelect($_POST['select']);
-    if ($data['Country'] === "Выберите страну из списка") $errors[] = $data['Country'];
-
-    $data['Gender'] = validateRadio($_POST['radio']);
-    if ($data['Gender'] === "Выберите пол") $errors[] = $data['Gender'];
-
-    $data['Profession'] = validateCheckbox($_POST['checkbox'] ?? []);
-    if ($data['Profession'] === "Необходимо выбрать хотя бы одну профессию") $errors[] = $data['Profession'];
-
-    $data['Password'] = validatePassword($_POST['password']);
-    if ($data['Password'] === "Пароль не может быть пустым" || strpos($data['Password'], "Пароль") !== false) $errors[] = $data['Password'];
+    foreach ($postKeys as $key => $dataKey) {
+        $data[$dataKey] = isset($_POST[$key]) ? $validators[$dataKey]($_POST[$key]) : null;
+        if (strpos($data[$dataKey], "не может быть пустым") !== false || strpos($data[$dataKey], "должен") !== false) {
+            $errors[] = $data[$dataKey];
+        }
+    }
 
     if ($errors) {
         $_SESSION['errors'] = $errors;
@@ -93,4 +93,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<p style='color:green;'>Данные успешно записаны!</p>";
     }
 }
-?>
